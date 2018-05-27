@@ -1,0 +1,73 @@
+cs_utilisateurs_all:
+    path:     /utilisateurs/{page}
+    defaults: { _controller: CSUtilisateursBundle:Utilisateurs:all, page: 1 }
+    requirements:
+        page: \d+
+    
+cs_utilisateurs_edit:
+    path:    /utilisateurs/edit/{id}
+    defaults:
+        _controller: CSUtilisateursBundle:Utilisateurs:edit
+    requirements:
+        id: \d+
+
+cs_utilisateurs_new:
+    path:    /utilisateurs/new
+    defaults: { _controller: CSUtilisateursBundle:Utilisateurs:new }
+
+cs_utilisateurs_delete:
+    path:    /utilisateurs/delete/{id}
+    defaults:
+        _controller: CSUtilisateursBundle:Utilisateurs:delete
+    requirements:
+        id: \d+
+
+
+cs_fonctions_all:
+    path: /fonctions/{page}
+    defaults: { _controller: CSUtilisateursBundle:Fonctions:all, page: 1 }
+    requirements:
+        page: \d+
+
+cs_fonctions_edit:
+    path:    /fonctions/edit/{id}
+    defaults:
+        _controller: CSUtilisateursBundle:Fonctions:edit
+    requirements:
+        id: \d+
+
+cs_fonctions_new:
+    path:    /fonctions/new
+    defaults: { _controller: CSUtilisateursBundle:Fonctions:new }
+
+cs_fonctions_delete:
+    path:    /fonctions/delete/{id}
+    defaults:
+        _controller: CSUtilisateursBundle:Fonctions:delete
+    requirements:
+        id: \d+
+
+cs_roles_all:
+    path: /roles/{page}
+    defaults: { _controller: CSUtilisateursBundle:Roles:all, page: 1 }
+    requirements:
+        page: \d+
+
+cs_roles_edit:
+    path:    /roles/edit/{id}
+    defaults:
+        _controller: CSUtilisateursBundle:Roles:edit
+    requirements:
+        id: \d+
+
+cs_roles_new:
+    path:    /roles/new
+    defaults: { _controller: CSUtilisateursBundle:Roles:new }
+
+cs_roles_delete:
+    path:    /roles/delete/{id}
+    defaults:
+        _controller: CSUtilisateursBundle:Roles:delete
+    requirements:
+        id: \d+
+

@@ -1,0 +1,44 @@
+{% extends 'CSCoreBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Liste des applications
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <br>
+    <br>
+
+    <div class="row">
+    <div class="col-lg-4">
+        <img src="http://placehold.it/350x350" class="img-responsive" alt="a"><br>
+        {% if is_granted('ROLE_DEV') %}
+        <a href="" title="Supprimer l'application" class="btn btn-danger col-lg-6 col-lg-offset-3">Supprimer</a>
+        {% endif %}
+    </div>
+    <div class="col-lg-8">
+
+
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#presentation" data-toggle="tab">Présentation</a></li>
+                <li><a href="#technique" data-toggle="tab">Technique</a></li>
+                <li><a href="#commentaires" data-toggle="tab">Commentaires</a></li>
+                <li><a href="#piecesjointes" data-toggle="tab">Pièces jointes</a></li>
+            </ul>
+            <div class="tab-content">
+
+                {% include 'CSApplicationsBundle:Applications:tab_presentation.html.twig' %}
+                {% include 'CSApplicationsBundle:Applications:tab_technique.html.twig' %}
+                {% include 'CSApplicationsBundle:Applications:tab_commentaires.html.twig' %}
+                {% include 'CSApplicationsBundle:Applications:tab_piecesjointes.html.twig' %}
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+<div class="tab-pane" id="technique">
+    <br>
+    <ul class="list-unstyled">
+
+
+        <li class="row">
+            <label class="col-lg-4 text-uppercase text-right">Lien de production : </label>
+            <label class="col-lg-7"> {{ application.lienProd }}</label>
+            <label class="col-lg-1 text-left">
+                <a href="{{ application.lienProd }}" title="Lien de production" target="_blank">
+                    <span class="glyphicon glyphicon-link"></span>
+                </a>
+            </label>
+        </li>
+        <br>
+        <li class="row">
+            <label class="col-lg-4 text-uppercase text-right">Lien de développement : </label>
+            <label class="col-lg-7">{{ application.lienDev }}</label>
+            <label class="col-lg-1 text-left">
+                <a href="{{ application.lienDev }}" title="Lien de développement" target="_blank">
+                    <span class="glyphicon glyphicon-link"></span>
+                </a>
+            </label>
+        </li>
+        <br>
+        <li class="row">
+            <label class="col-lg-4 text-uppercase text-right">Serveur de production : </label>
+            <label class="col-lg-7">{{ application.serveurProd.nom }}</label>
+            <label class="col-lg-1 text-left">
+                <a href="{{ path('cs_serveurs_edit',{'id':application.serveurProd.idServeur}) }}" title="Serveur de production" target="_blank">
+                    <span class="glyphicon glyphicon-circle-arrow-right"></span>
+                </a>
+            </label>
+        </li>
+        <br>
+        <li class="row">
+            <label class="col-lg-4 text-uppercase text-right">Serveur de dév. : </label>
+            <label class="col-lg-7">{{ application.serveurDev.nom }}</label>
+            <label class="col-lg-1 text-left">
+                <a href="{{ path('cs_serveurs_edit',{'id':application.serveurDev.idServeur}) }}" title="Serveur de développement" target="_blank">
+                    <span class="glyphicon glyphicon-circle-arrow-right"></span>
+                </a>
+            </label>
+        </li>
+        <br>
+        <li class="row">
+            <label class="col-lg-4 text-uppercase text-right">Technologie(s) utilisée(s) : </label>
+            <label class="col-lg-8">{{ application.technologie.libTechnologie }}</label>
+        </li>
+        <br>
+        <li class="row">
+            <label class="col-lg-4 text-uppercase text-right">Type de base de données : </label>
+            <label class="col-lg-8">{{ application.typeBase.libType }}</label>
+        </li>
+        <br>
+        <li class="row">
+            <label class="col-lg-4 text-uppercase text-right">Responsable Technique : </label>
+            <label class="col-lg-8">{{ application.developpeur.nomPrenomLogin }}</label>
+        </li>
+        <br>
+        <li class="row">
+            <label class="col-lg-4 text-uppercase text-right">Développeurs : </label>
+            <label class="col-lg-8">
+
+                {% for developpeur in developpeurs %}
+                    - {{ developpeur.nomPrenomLogin }}<br>
+                {% endfor %}
+            </label>
+
+        </li>
+    </ul>
+</div>

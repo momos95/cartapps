@@ -1,0 +1,4 @@
+services:
+#    cs_utilisateurs.example:
+#        class: CS\UtilisateursBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

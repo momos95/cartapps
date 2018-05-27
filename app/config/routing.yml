@@ -1,0 +1,36 @@
+cs_security:
+    resource: "@CSSecurityBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cs_utilisateurs:
+    resource: "@CSUtilisateursBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cs_serveurs:
+    resource: "@CSServeursBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cs_applications:
+    resource: "@CSApplicationsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cs_core:
+    resource: "@CSCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+login:
+    path:    /login
+    defaults: { _controller: CSSecurityBundle:Login:index}
+
+forget:
+    path:    /recovery
+    defaults: { _controller: CSSecurityBundle:Login:forget}
+
+
+login_check:
+    path:    /login_check
+
+logout:
+    path:    /logout
+
+

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{% block title %}{{ nom_site }}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/cscore/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/cscore/css/paper.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/cscore/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/cscore/css/bootstrap-datepicker.min.css') }}">
+    <script type="text/javascript" src="{{ asset('bundles/cscore/js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/cscore/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/cscore/js/jquery-ui.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/cscore/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/cscore/locales/bootstrap-datepicker.fr.min.js') }}"></script>
+
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                    <span class="sr-only">navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('cs_core_homepage') }}">{{ nom_site }}</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+
+                <ul class="nav navbar-nav">
+                    <li><a href="{{  path('cs_applications_all') }}" title="gestion des élèves">Applications</a></li>
+                    <li><a href="{{  path('cs_serveurs_all') }}" title="gestion des professeurs">Serveurs</a></li>
+                    {% if  is_granted('ROLE_DEV') %}
+                        <li><a href="{{ path('cs_utilisateurs_all') }}" title="gestion des utilisateurs">Utilisateurs</a></li>
+                        <li><a href="{{ path('cs_fonctions_all') }}" title="gestion des fonctions">Fonctions</a></li>
+                        <li><a href="{{ path('cs_roles_all') }}" title="gestion des roles">Rôles</a></li>
+                        <li><a href="{{ path('cs_os_all') }}" title="gestion des systèmes d'exploitation">OS</a></li>
+                        <li><a href="{{ path('cs_bases_all') }}" title="gestion des types de bases de données">BDD</a></li>
+                        <li><a href="{{ path('cs_technologies_all') }}" title="gestion des types des technologies">Technologies</a></li>
+                    {% endif %}
+                </ul>
+
+                {% if app.user %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="" class="text-primary" title="Profil"><span class="glyphicon glyphicon-user"></span></a></li>
+                        <li><a href="{{ path('logout') }}" title="Se déconnecter"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    </ul>
+                {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ path('login') }}" title="Administrateur"><span class="glyphicon glyphicon-log-in"></span> Administration</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <br><br>
+</header>
+
+
+{% block body %}
+{% endblock %}
+</body>
+</html>

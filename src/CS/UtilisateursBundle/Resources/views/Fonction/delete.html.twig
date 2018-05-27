@@ -1,0 +1,23 @@
+<div id="supModal{{ fonction.idFonction }}" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Supprimer une fonction</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center text-danger">
+                    Vous êtes sur le point de supprimer la fonction <b class="text-primary">"{{ fonction.libFonction }}"</b>.<br>
+                    Voulez-vous vraiment continuer ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" href="{{ path('cs_fonctions_delete',{ 'id' : fonction.idFonction }) }}">OUI</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">NON</button>
+            </div>
+        </div>
+
+    </div>
+</div>

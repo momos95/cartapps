@@ -1,0 +1,108 @@
+<?php
+
+namespace CS\UtilisateursBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Utilisateur
+ *
+ * @ORM\Table(name="utilisateurs", indexes={@ORM\Index(name="foreign 1", columns={"role"}), @ORM\Index(name="user_fonction_idx", columns={"fonction"})})
+ * @ORM\Entity(repositoryClass="CS\UtilisateursBundle\Repository\UtilisateurRepository")
+ */
+class Utilisateur
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_utilisateur", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idUtilisateur;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=45, nullable=false)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=45, nullable=false)
+     */
+    private $prenom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mail", type="string", length=45, nullable=false)
+     */
+    private $mail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="num_poste", type="string", length=45, nullable=true)
+     */
+    private $numPoste;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="login", type="string", length=45, nullable=false)
+     */
+    private $login;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mdp", type="string", length=250, nullable=false)
+     */
+    private $mdp;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_creation", type="datetime", nullable=false)
+     */
+    private $dateCreation = 'CURRENT_TIMESTAMP';
+
+    /**
+     * @var \Fonction
+     *
+     * @ORM\ManyToOne(targetEntity="Fonction")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="fonction", referencedColumnName="id_fonction")
+     * })
+     */
+    private $fonction;
+
+    /**
+     * @var \Role
+     *
+     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="role", referencedColumnName="id_role")
+     * })
+     */
+    private $role;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="\CS\ApplicationsBundle\Entity\Application", mappedBy="idDeveloppeur")
+     */
+    private $idApplication;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idApplication = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+}
+

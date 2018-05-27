@@ -1,0 +1,62 @@
+cs_serveurs_all:
+    path:     /serveurs/{page}
+    defaults: { _controller: CSServeursBundle:Serveurs:all , page: 1}
+    requirements:
+        page: \d+
+cs_serveurs_apps:
+    path: /serveurs/{id}_apps/{page}
+    defaults: { _controller: CSServeursBundle:Serveurs:apps , page: 1  }
+    requirements:
+        id: \d+
+        page: \d+
+
+cs_serveurs_new:
+    path: /serveurs/new
+    defaults: { _controller:  CSServeursBundle:Serveurs:new }
+
+cs_serveurs_edit:
+    path:     /serveurs/edit/{id}
+    defaults:
+            _controller: CSServeursBundle:Serveurs:edit
+    requirements:
+        id: \d+
+
+cs_serveurs_view:
+    path:     /serveurs/view/{id}
+    defaults:
+            _controller: CSServeursBundle:Serveurs:view
+    requirements:
+        id: \d+
+
+cs_serveurs_delete:
+    path:     /serveurs/delete/{id}
+    defaults:
+        _controller: CSServeursBundle:Serveurs:delete
+    requirements:
+     id: \d+
+
+cs_os_all:
+    path: /os/{page}
+    defaults: { _controller: CSServeursBundle:Os:all, page: 1 }
+    requirements:
+        page: \d+
+
+cs_os_edit:
+    path:    /os/edit/{id}
+    defaults:
+        _controller: CSServeursBundle:Os:edit
+    requirements:
+        id: \d+
+
+cs_os_new:
+    path:    /os/new
+    defaults: { _controller: CSServeursBundle:Os:new }
+
+cs_os_delete:
+    path:    /os/delete/{id}
+    defaults:
+        _controller: CSServeursBundle:Os:delete
+    requirements:
+        id: \d+
+
+

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>{{ nom_site }}</title>
+	<meta name="keywords" content="" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>{% block title %}{{ nom_site }}{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/cscore/css/error.css') }}">
+	<script type="text/javascript" src="{{ asset('bundles/cscore/js/jquery.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/cscore/js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+<!--start-wrap--->
+<div class="wrap">
+	<!---start-header---->
+	<div class="header">
+		<div class="logo">
+			<h1><a href="#">Désolé</a></h1>
+		</div>
+	</div>
+	<!---End-header---->
+	<!--start-content------>
+	<div class="content">
+		<img src="{{ asset('bundles/cscore/img/error-img.png') }}" title="error" />
+		<p><span><label>O</label>hh.....</span>La page que vous demandez n'existe pas !!!</p>
+		<a href="{{ path('cs_core_homepage') }}">Retourner à l'accueil</a>
+	</div>
+	<!--End-Cotent------>
+</div>
+<!--End-wrap--->
+</body>
+</html>
+
+

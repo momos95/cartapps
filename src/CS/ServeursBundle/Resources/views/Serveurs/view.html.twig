@@ -1,0 +1,120 @@
+{% extends 'CSCoreBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Serveurs
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <br>
+        <br>
+
+        <div class="well well-sm">
+
+            <div class="btn-group text-right">
+                <a href="{{ path('cs_serveurs_all') }}" title="Liste des serveurs" class="btn btn-default btn-sm text-right"><span
+                            class="glyphicon glyphicon-list"></span> Liste
+                </a>
+            </div>
+        </div>
+
+
+        {% for message in app.session.flashbag.get('notice') %}
+            <div>
+                <div class="alert alert-dismissible text-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong> {{ message }} </strong>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for message in app.session.flashbag.get('warning') %}
+            <div>
+                <div class="alert alert-dismissible text-danger text-center">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong> {{ message }} </strong>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="well well-lg">
+
+            <div class="row">
+                <div class="col-lg-5 text-right">
+                    DNS du serveur :
+                </div>
+                <div class="col-lg-7 text-left">
+                    {{ serveur.nom }}
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-lg-5 text-right">
+                     Type de Serveur :
+                </div>
+                <div class="col-lg-7 text-left">
+                    {{ serveur.typeServeur.libTypeServeur }}
+                </div>
+            </div>
+
+
+            <br>
+
+            <div class="row">
+                <div class="col-lg-5 text-right">
+                     Système d'exploitation :
+                </div>
+                <div class="col-lg-7 text-left">
+                    {{ serveur.os.libOs }}
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-lg-5 text-right">
+                    Login :
+                </div>
+                <div class="col-lg-7 text-left">
+                    {{ serveur.login }}
+                </div>
+            </div>
+
+
+            <br>
+
+            <div class="row">
+                <div class="col-lg-5 text-right">
+                    Mot de passe :
+                </div>
+                <div class="col-lg-7 text-left">
+                    {{ serveur.mdp }}
+                </div>
+            </div>
+
+
+            <br>
+
+            <div class="row">
+                <div class="col-lg-5 text-right">
+                    Nombre d'applications :
+                </div>
+                <div class="col-lg-7 text-left">
+                    {{ serveur.nbApplications }}
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
+
+
+{% endblock %}
+

@@ -1,0 +1,590 @@
+<?php
+
+namespace CS\ApplicationsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Application
+ *
+ *
+ * @ORM\Table(name="applications", indexes={@ORM\Index(name="application_bases_idx", columns={"type_base"}), @ORM\Index(name="application_technologies_idx", columns={"technologie"}), @ORM\Index(name="application_dev_idx", columns={"serveur_dev"}), @ORM\Index(name="application_prod_idx", columns={"serveur_prod"}), @ORM\Index(name="application_developpeur_idx", columns={"developpeur"})})
+ * @ORM\Entity(repositoryClass="CS\ApplicationsBundle\Repository\ApplicationRepository")
+ * @ORM\HasLifecycleCallbacks()
+ */
+
+class Application
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_application", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idApplication;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=45, nullable=false)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lien_prod", type="string", length=45, nullable=false)
+     */
+    private $lienProd;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lien_dev", type="string", length=45, nullable=true)
+     */
+    private $lienDev;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     */
+    private $description;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_creation", type="datetime", nullable=false)
+     */
+    private $dateCreation ;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_maj", type="datetime", nullable=false)
+     */
+    private $dateMaj ;
+
+    /**
+     * @var \TypeBase
+     *
+     * @ORM\ManyToOne(targetEntity="TypeBase")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="type_base", referencedColumnName="id_type")
+     * })
+     */
+    private $typeBase;
+
+    /**
+     * @var \CS\ServeursBundle\Entity\Serveur
+     *
+     * @ORM\ManyToOne(targetEntity="\CS\ServeursBundle\Entity\Serveur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="serveur_dev", referencedColumnName="id_serveur")
+     * })
+     */
+    private $serveurDev;
+
+    /**
+     * @var \CS\UtilisateursBundle\Entity\Utilisateur
+     *
+     * @ORM\ManyToOne(targetEntity="\CS\UtilisateursBundle\Entity\Utilisateur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="developpeur", referencedColumnName="id_utilisateur")
+     * })
+     */
+    private $developpeur;
+
+    /**
+     * @var \CS\ServeursBundle\Entity\Serveur
+     *
+     * @ORM\ManyToOne(targetEntity="\CS\ServeursBundle\Entity\Serveur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="serveur_prod", referencedColumnName="id_serveur")
+     * })
+     */
+    private $serveurProd;
+
+    /**
+     * @var \Technologie
+     *
+     * @ORM\ManyToOne(targetEntity="Technologie")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="technologie", referencedColumnName="id_technologie")
+     * })
+     */
+    private $technologie;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CS\UtilisateursBundle\Entity\Utilisateur", inversedBy="idApplication")
+     * @ORM\JoinTable(name="application_developpeur",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_application", referencedColumnName="id_application")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_developpeur", referencedColumnName="id_utilisateur")
+     *   }
+     * )
+     */
+    private $idDeveloppeur;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CS\ApplicationsBundle\Entity\Commentaire", inversedBy="idApplication")
+     * @ORM\JoinTable(name="commentaire_application",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_application", referencedColumnName="id_application")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_commentaire", referencedColumnName="id_commentaire")
+     *   }
+     * )
+     */
+    private $idCommentaire;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CS\ApplicationsBundle\Entity\FichiersUp", inversedBy="idApplication")
+     * @ORM\JoinTable(name="fichier_application",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_application", referencedColumnName="id_application")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_fichier", referencedColumnName="id_fichier")
+     *   }
+     * )
+     */
+    private $idFichier;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idDeveloppeur = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idCommentaire = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idFichier = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dateCreation = new \DateTime();
+        $this->dateMaj = new \DateTime() ;
+    }
+
+    /**
+     * Gets triggered only on insert
+
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->dateCreation= new \DateTime("now");
+    }
+
+    /**
+     * Gets triggered every time on update
+
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->dateMaj = new \DateTime("now");
+    }
+
+    /**
+     * Get idApplication
+     *
+     * @return integer
+     */
+    public function getIdApplication()
+    {
+        return $this->idApplication;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Application
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set lienProd
+     *
+     * @param string $lienProd
+     *
+     * @return Application
+     */
+    public function setLienProd($lienProd)
+    {
+        $this->lienProd = $lienProd;
+
+        return $this;
+    }
+
+    /**
+     * Get lienProd
+     *
+     * @return string
+     */
+    public function getLienProd()
+    {
+        return $this->lienProd;
+    }
+
+    /**
+     * Set lienDev
+     *
+     * @param string $lienDev
+     *
+     * @return Application
+     */
+    public function setLienDev($lienDev)
+    {
+        $this->lienDev = $lienDev;
+
+        return $this;
+    }
+
+    /**
+     * Get lienDev
+     *
+     * @return string
+     */
+    public function getLienDev()
+    {
+        return $this->lienDev;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Application
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     *
+     * @return Application
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateMaj
+     *
+     * @param \DateTime $dateMaj
+     *
+     * @return Application
+     */
+    public function setDateMaj($dateMaj)
+    {
+        $this->dateMaj = $dateMaj;
+
+        return $this;
+    }
+
+    /**
+     * Get dateMaj
+     *
+     * @return \DateTime
+     */
+    public function getDateMaj()
+    {
+        return $this->dateMaj;
+    }
+
+    /**
+     * Set typeBase
+     *
+     * @param \CS\ApplicationsBundle\Entity\TypeBase $typeBase
+     *
+     * @return Application
+     */
+    public function setTypeBase(\CS\ApplicationsBundle\Entity\TypeBase $typeBase = null)
+    {
+        $this->typeBase = $typeBase;
+
+        return $this;
+    }
+
+    /**
+     * Get typeBase
+     *
+     * @return \CS\ApplicationsBundle\Entity\TypeBase
+     */
+    public function getTypeBase()
+    {
+        return $this->typeBase;
+    }
+
+    /**
+     * Set serveurDev
+     *
+     * @param \CS\ServeursBundle\Entity\Serveur $serveurDev
+     *
+     * @return Application
+     */
+    public function setServeurDev(\CS\ServeursBundle\Entity\Serveur $serveurDev = null)
+    {
+        $this->serveurDev = $serveurDev;
+
+        return $this;
+    }
+
+    /**
+     * Get serveurDev
+     *
+     * @return \CS\ServeursBundle\Entity\Serveur
+     */
+    public function getServeurDev()
+    {
+        return $this->serveurDev;
+    }
+
+    /**
+     * Set developpeur
+     *
+     * @param \CS\UtilisateursBundle\Entity\Utilisateur $developpeur
+     *
+     * @return Application
+     */
+    public function setDeveloppeur(\CS\UtilisateursBundle\Entity\Utilisateur $developpeur = null)
+    {
+        $this->developpeur = $developpeur;
+
+        return $this;
+    }
+
+    /**
+     * Get developpeur
+     *
+     * @return \CS\UtilisateursBundle\Entity\Utilisateur
+     */
+    public function getDeveloppeur()
+    {
+        return $this->developpeur;
+    }
+
+    /**
+     * Set serveurProd
+     *
+     * @param \CS\ServeursBundle\Entity\Serveur $serveurProd
+     *
+     * @return Application
+     */
+    public function setServeurProd(\CS\ServeursBundle\Entity\Serveur $serveurProd = null)
+    {
+        $this->serveurProd = $serveurProd;
+
+        return $this;
+    }
+
+    /**
+     * Get serveurProd
+     *
+     * @return \CS\ServeursBundle\Entity\Serveur
+     */
+    public function getServeurProd()
+    {
+        return $this->serveurProd;
+    }
+
+    /**
+     * Set technologie
+     *
+     * @param \CS\ApplicationsBundle\Entity\Technologie $technologie
+     *
+     * @return Application
+     */
+    public function setTechnologie(\CS\ApplicationsBundle\Entity\Technologie $technologie = null)
+    {
+        $this->technologie = $technologie;
+
+        return $this;
+    }
+
+    /**
+     * Get technologie
+     *
+     * @return \CS\ApplicationsBundle\Entity\Technologie
+     */
+    public function getTechnologie()
+    {
+        return $this->technologie;
+    }
+
+    /**
+     * Add idDeveloppeur
+     *
+     * @param \CS\UtilisateursBundle\Entity\Utilisateur $idDeveloppeur
+     *
+     * @return Application
+     */
+    public function addIdDeveloppeur(\CS\UtilisateursBundle\Entity\Utilisateur $idDeveloppeur)
+    {
+        $this->idDeveloppeur[] = $idDeveloppeur;
+
+        return $this;
+    }
+
+    /**
+     * Remove idDeveloppeur
+     *
+     * @param \CS\UtilisateursBundle\Entity\Utilisateur $idDeveloppeur
+     */
+    public function removeIdDeveloppeur(\CS\UtilisateursBundle\Entity\Utilisateur $idDeveloppeur)
+    {
+        $this->idDeveloppeur->removeElement($idDeveloppeur);
+    }
+
+    /**
+     * Get idDeveloppeur
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIdDeveloppeur()
+    {
+        return $this->idDeveloppeur;
+    }
+
+    /**
+     * Add idCommentaire
+     *
+     * @param \CS\ApplicationsBundle\Entity\Commentaire $idCommentaire
+     *
+     * @return Application
+     */
+    public function addIdCommentaire(\CS\ApplicationsBundle\Entity\Commentaire $idCommentaire)
+    {
+        $this->idCommentaire[] = $idCommentaire;
+
+        return $this;
+    }
+
+    /**
+     * Remove idCommentaire
+     *
+     * @param \CS\ApplicationsBundle\Entity\Commentaire $idCommentaire
+     */
+    public function removeIdCommentaire(\CS\ApplicationsBundle\Entity\Commentaire $idCommentaire)
+    {
+        $this->idCommentaire->removeElement($idCommentaire);
+    }
+
+    /**
+     * Get idCommentaire
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIdCommentaire()
+    {
+        return $this->idCommentaire;
+    }
+
+    /**
+     * Add idFichier
+     *
+     * @param \CS\ApplicationsBundle\Entity\FichiersUp $idFichier
+     *
+     * @return Application
+     */
+    public function addIdFichier(\CS\ApplicationsBundle\Entity\FichiersUp $idFichier)
+    {
+        $this->idFichier[] = $idFichier;
+
+        return $this;
+    }
+
+    /**
+     * Remove idFichier
+     *
+     * @param \CS\ApplicationsBundle\Entity\FichiersUp $idFichier
+     */
+    public function removeIdFichier(\CS\ApplicationsBundle\Entity\FichiersUp $idFichier)
+    {
+        $this->idFichier->removeElement($idFichier);
+    }
+
+    /**
+     * Get idFichier
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIdFichier()
+    {
+        return $this->idFichier;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function increase()
+    {
+        $this->getServeurDev()->increaseNbApplications();
+        $this->getServeurProd()->increaseNbApplications();
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function decrease()
+    {
+        $this->getServeurProd()->decreaseNbApplications();
+        $this->getServeurDev()->decreaseNbApplications();
+    }
+}
+

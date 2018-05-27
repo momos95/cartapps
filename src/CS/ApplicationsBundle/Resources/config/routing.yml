@@ -1,0 +1,80 @@
+cs_applications_all:
+    path:     /applications/{page}
+    defaults: { _controller: CSApplicationsBundle:Applications:all , page: 1}
+    requirements:
+        page: \d+
+
+cs_applications_view:
+    path:     /applications/infos/{id}
+    defaults:
+        _controller: CSApplicationsBundle:Applications:view
+    requirements:
+        id: \d+
+
+cs_applications_edit:
+    path:     /applications/edit/{id}
+    defaults:
+        _controller: CSApplicationsBundle:Applications:edit
+    requirements:
+        id: \d+
+
+cs_applications_delete:
+    path:     /applications/delete/{id}
+    defaults:
+        _controller: CSApplicationsBundle:Applications:delete
+    requirements:
+        id: \d+
+
+cs_applications_new:
+    path:    /applications/add
+    defaults: { _controller: CSApplicationsBundle:Applications:new }
+
+cs_bases_all:
+    path: /bases/{page}
+    defaults: { _controller: CSApplicationsBundle:TypeBases:all, page: 1}
+    requirements:
+        page: \d+
+
+cs_bases_edit:
+    path:    /bases/edit/{id}
+    defaults:
+        _controller: CSApplicationsBundle:TypeBases:edit
+    requirements:
+        id: \d+
+
+cs_bases_new:
+    path:    /bases/new
+    defaults: { _controller: CSApplicationsBundle:TypeBases:new }
+
+cs_bases_delete:
+    path:    /bases/delete/{id}
+    defaults:
+        _controller: CSApplicationsBundle:TypeBases:delete
+    requirements:
+        id: \d+
+
+
+cs_technologies_all:
+    path: /technologies/{page}
+    defaults: { _controller: CSApplicationsBundle:Technologies:all, page: 1}
+    requirements:
+        page: \d+
+
+cs_technologies_edit:
+    path:    /technologies/edit/{id}
+    defaults:
+        _controller: CSApplicationsBundle:Technologies:edit
+    requirements:
+        id: \d+
+
+cs_technologies_new:
+    path:    /technologies/new
+    defaults: { _controller: CSApplicationsBundle:Technologies:new }
+
+cs_technologies_delete:
+    path:    /technologies/delete/{id}
+    defaults:
+        _controller: CSApplicationsBundle:Technologies:delete
+    requirements:
+        id: \d+
+

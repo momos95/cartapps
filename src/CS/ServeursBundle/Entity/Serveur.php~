@@ -1,0 +1,87 @@
+<?php
+
+namespace CS\ServeursBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Serveur
+ *
+ * @ORM\Table(name="serveurs", indexes={@ORM\Index(name="serveur_os_idx", columns={"os"}), @ORM\Index(name="serveur_type_idx", columns={"type_serveur"})})
+ * @ORM\Entity(repositoryClass="CS\ServeursBundle\Repository\ServeurRepository")
+ */
+class Serveur
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_serveur", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idServeur;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=45, nullable=false)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="login", type="string", length=45, nullable=false)
+     */
+    private $login;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mdp", type="string", length=45, nullable=false)
+     */
+    private $mdp;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="login_phpmyadmin", type="string", length=45, nullable=true)
+     */
+    private $loginPhpmyadmin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mdp_phpmyadmin", type="string", length=45, nullable=true)
+     */
+    private $mdpPhpmyadmin;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nb_applications", type="integer", nullable=false)
+     */
+    private $nbApplications = '0';
+
+    /**
+     * @var \Os
+     *
+     * @ORM\ManyToOne(targetEntity="Os")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="os", referencedColumnName="id_os")
+     * })
+     */
+    private $os;
+
+    /**
+     * @var \TypeServeur
+     *
+     * @ORM\ManyToOne(targetEntity="TypeServeur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="type_serveur", referencedColumnName="id_type_serveur")
+     * })
+     */
+    private $typeServeur;
+
+}
+

@@ -1,0 +1,84 @@
+{% extends 'CSCoreBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Liste des serveurs
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <br>
+        <br>
+
+        {% if  is_granted('ROLE_DEV') %}
+        <div class="well well-sm">
+            <div class="btn-group text-right">
+                <a href="{{ path('cs_serveurs_new') }}" title="Ajouter un serveur" class="btn btn-default btn-sm text-right"><span
+                            class="glyphicon glyphicon-plus"></span> Ajouter
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        {% for message in app.session.flashbag.get('notice') %}
+            <div>
+                <div class="alert alert-dismissible text-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong> {{ message }} </strong>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for message in app.session.flashbag.get('warning') %}
+            <div>
+                <div class="alert alert-dismissible text-danger text-center">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong> {{ message }} </strong>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="well well-lg">
+
+            <table class="table table-striped table-hover table-responsive table-bordered">
+                <thead>
+                <tr class="">
+                    <th>#</th>
+                    <th>D.N.S</th>
+                    <th>Type</th>
+                    <th>Système</th>
+                    <th>Nb. Applications</th>
+                    <th class="text-center" colspan="2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for serveur in liste_serveurs %}
+                    <tr>
+                        <td>{{ serveur.idServeur }}</td>
+                        <td>{{ serveur.nom }}</td>
+                        <td>{{ serveur.typeServeur.libTypeServeur }}</td>
+                        <td>{{ serveur.os.libOs }}</td>
+                        <td>{{ serveur.nbApplications }}</td>
+                        {% if is_granted('ROLE_DEV') %}
+                        <td class="text-center"><a style="cursor: pointer" href="{{ path('cs_serveurs_edit',{'id':serveur.idServeur}) }}" title="Modifier" class="text-info"><span class="glyphicon glyphicon-edit"></span></a></td>
+                        <td class="text-center"><a style="cursor: pointer" href="{{ path('cs_serveurs_delete',{'id':serveur.idServeur}) }}" title="Supprimer" class="text-info"><span class="glyphicon glyphicon-remove"></span></a></td>
+                        {% else %}
+                            <td class="text-center" colspan="2"><a style="cursor: pointer" href="{{ path('cs_serveurs_view',{'id':serveur.idServeur}) }}" title="Voir le serveur" class="text-info"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                        {% endif %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center text-uppercase">Pas de serveurs</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if liste_serveurs is not empty %}
+            {% include 'CSCoreBundle::pagination.html.twig' %}
+        {% endif %}
+    </div>
+
+{% endblock %}
+

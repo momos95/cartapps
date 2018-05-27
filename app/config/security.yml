@@ -1,0 +1,60 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+
+    encoders:
+        CS\UtilisateursBundle\Entity\Utilisateur:
+            algorithm: sha1
+            encode_as_base64: false
+            iterations: 1
+
+
+    role_hierarchy:
+        ROLE_DSI:        ROLE_USER
+        ROLE_DEV:        [ROLE_USER, ROLE_DSI, ROLE_ALLOWED_TO_SWITCH]
+
+    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        main:
+            entity:
+                class: CS\UtilisateursBundle\Entity\Utilisateur
+                property: login
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main_login:
+            pattern: ^/login$
+            anonymous: true
+
+        main:
+            pattern: ^/
+            anonymous: true
+            provider: main
+            form_login:
+                login_path: login
+                check_path: login_check
+            logout:
+                path: logout
+                target: /login
+
+            # activate different ways to authenticate
+
+            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            #form_login: ~
+
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/fonctions, roles: ROLE_DEV }
+        - { path: ^/applications/edit, roles: ROLE_DEV }
+        - { path: ^/serveurs/edit, roles: ROLE_DEV }
+        - { path: ^/applications/delete, roles: ROLE_DEV }
+        - { path: ^/serveurs/delete, roles: ROLE_DEV }
+        - { path: ^/applications/new, roles: ROLE_DEV }
+        - { path: ^/serveurs/new, roles: ROLE_DEV }

@@ -1,0 +1,66 @@
+<?php
+
+namespace CS\ApplicationsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Technologie
+ *
+ * @ORM\Table(name="technologies")
+ * @ORM\Entity(repositoryClass="CS\ApplicationsBundle\Repository\TechnogolieRepository")
+ */
+class Technologie
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_technologie", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idTechnologie;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lib_technologie", type="string", length=45, nullable=true)
+     */
+    private $libTechnologie;
+
+
+
+    /**
+     * Get idTechnologie
+     *
+     * @return integer
+     */
+    public function getIdTechnologie()
+    {
+        return $this->idTechnologie;
+    }
+
+    /**
+     * Set libTechnologie
+     *
+     * @param string $libTechnologie
+     *
+     * @return Technologie
+     */
+    public function setLibTechnologie($libTechnologie)
+    {
+        $this->libTechnologie = $libTechnologie;
+
+        return $this;
+    }
+
+    /**
+     * Get libTechnologie
+     *
+     * @return string
+     */
+    public function getLibTechnologie()
+    {
+        return $this->libTechnologie;
+    }
+}

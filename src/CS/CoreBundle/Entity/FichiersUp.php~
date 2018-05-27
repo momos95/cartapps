@@ -1,0 +1,78 @@
+<?php
+
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * FichiersUp
+ *
+ * @ORM\Table(name="fichiers_up", indexes={@ORM\Index(name="ficher_auteur_idx", columns={"auteur"}), @ORM\Index(name="fichier_application_idx", columns={"application"})})
+ * @ORM\Entity
+ */
+class FichiersUp
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_fichier", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idFichier;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_fichier", type="string", length=45, nullable=false)
+     */
+    private $nomFichier;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="chemin_fichier", type="string", length=100, nullable=false)
+     */
+    private $cheminFichier;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="application", type="integer", nullable=false)
+     */
+    private $application;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_upload", type="datetime", nullable=false)
+     */
+    private $dateUpload = 'CURRENT_TIMESTAMP';
+
+    /**
+     * @var \Utilisateur
+     *
+     * @ORM\ManyToOne(targetEntity="Utilisateur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="auteur", referencedColumnName="id_utilisateur")
+     * })
+     */
+    private $auteur;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Application", mappedBy="idFichier")
+     */
+    private $idApplication;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idApplication = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}
+

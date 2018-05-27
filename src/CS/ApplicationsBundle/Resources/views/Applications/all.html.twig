@@ -1,0 +1,94 @@
+{% extends 'CSCoreBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Liste des applications
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <br>
+        <br>
+
+        <div class="well well-sm">
+
+            <div class="btn-group">
+                <a href="#" id="list" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-th-list"></span> Liste
+                </a>
+                <a href="#" id="grid" class="btn btn-default btn-sm"><span
+                            class="glyphicon glyphicon-th"></span> Grille
+                </a>
+                {% if app.user %}
+                <a href="{{ path('cs_applications_new') }}" class="btn btn-default btn-sm text-left"><span
+                            class="glyphicon glyphicon-plus-sign"></span> Ajouter
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% for message in app.session.flashbag.get('notice') %}
+            <div>
+                <div class="alert alert-dismissible text-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong> {{ message }} </strong>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for message in app.session.flashbag.get('warning') %}
+            <div>
+                <div class="alert alert-dismissible text-danger text-center">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong> {{ message }} </strong>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div id="products" class="row list-group">
+
+            {% for application in liste_applications %}
+                <div class="item  col-xs-4 col-lg-4">
+                    <div class="thumbnail">
+                        <img class="group list-group-image img-thumbnail" src="http://placehold.it/320x200/000/fff" alt="" />
+                        <div class="caption">
+                            <h4 class="group inner list-group-item-heading">
+                                {{ application.nom }}
+                            </h4>
+                            <p class="group inner list-group-item-text">
+                                {{  application.description | raw  | slice(0, 20)  | raw }}
+                                {{ application.description | length > 20 ? '...' : '' }}
+                            </p>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p class="lead">
+                                        Dernière Mise à jour : {{ application.dateMaj | date('d/m/Y')}} </p>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <a class="btn btn-info" href="{{ path('cs_applications_view',{ 'id' : application.idApplication }) }}">Plus d'infos.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-center text-primary">Pas d'applications.</p>
+            {% endfor %}
+
+        </div>
+
+        {% if liste_applications is not empty %}
+            {% include 'CSCoreBundle::pagination.html.twig' %}
+        {% endif %}
+
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+            $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+        });
+    </script>
+
+{% endblock %}
+

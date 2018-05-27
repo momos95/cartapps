@@ -1,0 +1,78 @@
+{% extends 'CSCoreBundle::layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Liste des applications
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <br>
+
+        <br>
+
+        <div class="well well-sm">
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="btn-group" style="margin-top: 5px">
+                        <a href="#" id="list" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-th-list"></span> Mode Liste
+                        </a>
+                        <a href="#" id="grid" class="btn btn-default btn-sm"><span
+                                    class="glyphicon glyphicon-th"></span> Mode Grille
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="text-right text-info">Serveur : {{ serveur.nom | upper}}</h6>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="products" class="row list-group">
+
+            {% for application in liste_applications %}
+                <div class="item  col-xs-4 col-lg-4">
+                    <div class="thumbnail">
+                        <img class="group list-group-image img-thumbnail" src="http://placehold.it/320x200/000/fff" alt="" />
+                        <div class="caption">
+                            <h4 class="group inner list-group-item-heading">
+                                {{ application.nom }}
+                            </h4>
+                            <p class="group inner list-group-item-text">
+                                Cliquer pour voir la description...
+                            </p>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <p class="lead">
+                                        Mise à jour : <br></b>{{ application.dateMaj | localizeddate('full', 'none')}} </b> </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <a class="btn btn-info" href="{{ path('cs_applications_view',{ 'id' : application.idApplication }) }}">Plus d'infos.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-center text-primary">Pas d'applications sur ce serveur.</p>
+            {% endfor %}
+
+        </div>
+        {% if liste_applications is not empty %}
+            {% include 'CSCoreBundle::pagination.html.twig' %}
+        {% endif %}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+            $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+        });
+    </script>
+
+{% endblock %}
+
